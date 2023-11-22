@@ -9,9 +9,11 @@ app.use(express.json());
 
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
+const getAController = (req: Request, res: Response) => {
   const a = 10;
   res.send(a);
-});
+};
+
+app.get('/', getAController);
 
 export default app;

@@ -1,4 +1,9 @@
-// import { Schema, model, connect } from 'mongoose';
+// sub type UserName----------
+export type UserName = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
 
 // sub type Guardian----------
 export type Guardian = {
@@ -8,13 +13,6 @@ export type Guardian = {
   motherName: string;
   motherOccupation: string;
   motherContactNo: string;
-};
-
-// sub type UserName----------
-export type UserName = {
-  firstName: string;
-  middleName: string;
-  lastName: string;
 };
 
 // sub type LocalGuardian---------
