@@ -1,12 +1,12 @@
 import validator from 'validator';
 import { Schema, model } from 'mongoose';
 import {
+  StudentMethods,
+  StudentModel,
   TGuardian,
   TLocalGuardian,
   TStudent,
-  TStudentMethods,
-  StudentModel,
-  StudentModel,
+  
   TUserName,
 } from './student.interface';
 
@@ -88,7 +88,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 });
 
 // main schema student------------------------------
-const studentSchema = new Schema<TStudent, StudentModel, TStudentMethods>({
+const studentSchema = new Schema<TStudent, StudentModel, StudentMethods>({
   id: {
     type: String,
     required: true,

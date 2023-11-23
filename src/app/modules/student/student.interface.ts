@@ -47,7 +47,7 @@ export type StudentMethods = {
   isUserExists(id: string): Promise<TStudent| null>;
 };
 
-// Create a new Model type that knows about IUserMethods...
+// Create a new Model type that knows about StudentModel...
 export type StudentModel = Model<
   TStudent,
   Record<string, never>,
