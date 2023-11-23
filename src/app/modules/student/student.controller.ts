@@ -12,7 +12,11 @@ const createStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something Went to Wrong',
+      error: err,
+    });
   }
 };
 
@@ -25,7 +29,11 @@ const getAllStudents = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something Went to Wrong',
+      error: err,
+    });
   }
 };
 
@@ -39,7 +47,11 @@ const getSingleStudents = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      success: false,
+      message: 'Something Went to Wrong',
+      error: err,
+    });
   }
 };
 
