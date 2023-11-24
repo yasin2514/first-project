@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StudentService } from './student.service';
 import studentValidationSchema from './student.zod.validation';
+import errorMap from 'zod/lib/locales/en';
 // import studentValidationSchema from './student.joi.validation';
 
 const createStudent = async (req: Request, res: Response) => {
@@ -45,16 +46,17 @@ const getAllStudents = async (req: Request, res: Response) => {
       message: 'Student are retrieved successfully',
       data: result,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Something Went to Wrong',
+      message: err.message || 'Something Went to Wrong',
       error: err,
     });
   }
 };
 
-const getSingleStudents = async (req: Request, res: Response) => {
+// get single student
+const getSingleStudent = async (req: Request, res: Response) => {
   try {
     const { studentId } = req.params;
     const result = await StudentService.getSingleStudentFromDB(studentId);
@@ -63,10 +65,29 @@ const getSingleStudents = async (req: Request, res: Response) => {
       message: 'Student is retrieved successfully',
       data: result,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
-      message: 'Something Went to Wrong',
+      message: err.message || 'Something Went to Wrong',
+      error: err,
+    });
+  }
+};
+
+// delete student
+const deleteSingleStudent = async (req: Request, res: Response) => {
+  try {
+    const { studentId } = req.params;
+    const result = await StudentService.deleteStudentFromDB(studentId);
+    res.status(200).json({
+      success: true,
+      message: 'Student is delete successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something Went to Wrong',
       error: err,
     });
   }
@@ -75,5 +96,6 @@ const getSingleStudents = async (req: Request, res: Response) => {
 export const StudentController = {
   createStudent,
   getAllStudents,
-  getSingleStudents,
+  getSingleStudent,
+  deleteSingleStudent,
 };

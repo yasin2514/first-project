@@ -8,7 +8,6 @@ const createStudentIntoDB = async (studentData: TStudent) => {
   }
   const result = await StudentModel.create(studentData);
 
-  
   // built in --------------- instance method---------------
   // const student = new StudentModel(studentData);
   // if (await student.isStudentExists(studentData.id)) {
@@ -31,8 +30,15 @@ const getSingleStudentFromDB = async (id: string) => {
   return result;
 };
 
+// delete student from DB----
+const deleteStudentFromDB = async (id: string) => {
+  const result = await StudentModel.updateOne({ id }, { isDeleted: true });
+  return result;
+};
+
 export const StudentService = {
   createStudentIntoDB,
   getAllStudentsFromDB,
   getSingleStudentFromDB,
+  deleteStudentFromDB,
 };

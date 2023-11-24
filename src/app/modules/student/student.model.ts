@@ -103,7 +103,6 @@ const studentSchema = new Schema<TStudent, TStudentModel>({
   password: {
     type: String,
     required: [true, 'Password is Required'],
-    unique: true,
     maxLength: [20, 'Password can not be more than 20 characters'],
   },
   name: {
@@ -163,14 +162,21 @@ const studentSchema = new Schema<TStudent, TStudentModel>({
   },
   isActive: {
     type: String,
-    enum: ['active', 'blocked'],
+    enum: {
+      values: ['active', 'blocked'],
+      message: '{VALUE} is not valid status',
+    },
     default: 'active',
+  },
+  isDeleted: {
+    type: Boolean,
+    default: false,
   },
 });
 
+// document middleware---------------------
 //pre save middleware / hook
 studentSchema.pre('save', async function (next) {
-  console.log(this, 'pre hook: we will save the data');
   // hashing password and save into DB--
   this.password = await bcrypt.hash(
     this.password,
@@ -180,8 +186,16 @@ studentSchema.pre('save', async function (next) {
 });
 
 //post save middleware / hook
-studentSchema.post('save', function () {
-  console.log(this, 'post hook: we saved our data');
+studentSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// query middleware---------------------
+// pre save
+studentSchema.pre('find', async function (next) {
+  console.log(this);
+  // next();
 });
 
 //create custom -------------instance method-----------------
