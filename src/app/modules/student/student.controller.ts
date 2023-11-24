@@ -20,8 +20,8 @@ const createStudent = async (req: Request, res: Response) => {
     // }
 
     //data validation using -----------zod-----------
-    const zodPaseData = studentValidationSchema.parse(studentData);
-    const result = await StudentService.createStudentIntoDB(zodPaseData);
+    const zodParseData = studentValidationSchema.parse(studentData);
+    const result = await StudentService.createStudentIntoDB(zodParseData);
 
     res.status(200).json({
       success: true,

@@ -43,13 +43,12 @@ export type TStudent = {
   isActive: 'active' | 'blocked';
 };
 
-export type StudentMethods = {
-  isUserExists(id: string): Promise<TStudent| null>;
+export type TStudentMethods = {
+  isStudentExists(id: string): Promise<TStudent | null>;
 };
 
-// Create a new Model type that knows about StudentModel...
-export type StudentModel = Model<
+export type TStudentModel = Model<
   TStudent,
   Record<string, never>,
-  StudentMethods
+  TStudentMethods
 >;
