@@ -7,6 +7,9 @@ const createStudentIntoDB = async (studentData: TStudent) => {
 
   // built in ----- instance method--
   const student = new StudentModel(studentData);
+  if (await student.isStudentExists(studentData.id)) {
+    throw new Error('User already exists');
+  }
   const result = await student.save();
 
   return result;
