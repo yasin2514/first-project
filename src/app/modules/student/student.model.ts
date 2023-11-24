@@ -194,8 +194,20 @@ studentSchema.post('save', function (doc, next) {
 // query middleware---------------------
 // pre save
 studentSchema.pre('find', async function (next) {
-  console.log(this);
-  // next();
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+// pre save
+studentSchema.pre('findOne', async function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+// aggregate middleware---------------------
+studentSchema.pre('aggregate', async function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
 });
 
 //create custom -------------instance method-----------------
