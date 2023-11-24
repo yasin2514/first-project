@@ -1,5 +1,6 @@
 import validator from 'validator';
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
 import {
   TGuardian,
   TLocalGuardian,
@@ -8,6 +9,8 @@ import {
   TStudentModel,
   TUserName,
 } from './student.interface';
+import config from '../../config';
+// import { any, number } from 'joi';
 
 //create Schema--------------------------------------------------
 // sub schema userNameSchema------
@@ -94,8 +97,14 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 const studentSchema = new Schema<TStudent, TStudentModel>({
   id: {
     type: String,
-    required: true,
+    required: [true, 'Id is Required'],
     unique: true,
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is Required'],
+    unique: true,
+    maxLength: [20, 'Password can not be more than 20 characters'],
   },
   name: {
     type: userNameSchema,
@@ -157,6 +166,22 @@ const studentSchema = new Schema<TStudent, TStudentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+});
+
+//pre save middleware / hook
+studentSchema.pre('save', async function (next) {
+  console.log(this, 'pre hook: we will save the data');
+  // hashing password and save into DB--
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+//post save middleware / hook
+studentSchema.post('save', function () {
+  console.log(this, 'post hook: we saved our data');
 });
 
 //create custom -------------instance method-----------------
