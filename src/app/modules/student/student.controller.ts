@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { StudentService } from './student.service';
 import studentValidationSchema from './student.zod.validation';
-import errorMap from 'zod/lib/locales/en';
 // import studentValidationSchema from './student.joi.validation';
 
 const createStudent = async (req: Request, res: Response) => {
